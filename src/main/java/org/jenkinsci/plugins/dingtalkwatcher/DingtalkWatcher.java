@@ -8,7 +8,6 @@ import hudson.model.User;
 import hudson.plugins.jobConfigHistory.JobConfigHistory;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -16,8 +15,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.jenkinsci.plugins.dingtalkwatcher.jobConfigHistory.ConfigHistory;
-import com.google.common.base.Splitter;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -28,7 +25,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class DingtalkWatcher {
@@ -105,6 +103,8 @@ public class DingtalkWatcher {
         StringBuilder content = new StringBuilder();
         StringBuilder subject = new StringBuilder();
         subject.append(notification.getMailSubject());
+
+        content.append("# " + notification.getMailSubject() + "\n\n");
         content.append(notification.getMailBody());
 
         Map mdMap = new HashMap<String, Object>();
