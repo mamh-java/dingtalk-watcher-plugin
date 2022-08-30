@@ -95,8 +95,8 @@ public abstract class DingtalkWatcherNotification {
     protected @Nonnull
     Map<String, String> pairs() {
         final Map<String, String> pairs = new HashMap<>(3);
-        pairs.put("Date", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        pairs.put("Initiator", this.getInitiator().getId());
+        pairs.put("发现时间", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        pairs.put("发起者是", this.getInitiator().getId());
         pairs.put("Url", "[" + this.getArtefactUrl() + "](" + this.getArtefactUrl() + ")");
         return pairs;
     }
