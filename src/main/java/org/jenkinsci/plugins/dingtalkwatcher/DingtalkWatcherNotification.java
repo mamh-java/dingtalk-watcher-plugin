@@ -5,7 +5,8 @@ import hudson.model.User;
 import javax.annotation.Nonnull;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -94,7 +95,7 @@ public abstract class DingtalkWatcherNotification {
     protected @Nonnull
     Map<String, String> pairs() {
         final Map<String, String> pairs = new HashMap<>(3);
-        pairs.put("Date", new Date().toString());
+        pairs.put("Date", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         pairs.put("Initiator", this.getInitiator().getId());
         pairs.put("Url", "[" + this.getArtefactUrl() + "](" + this.getArtefactUrl() + ")");
         return pairs;
