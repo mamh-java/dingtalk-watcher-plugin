@@ -15,7 +15,7 @@ public abstract class DingtalkWatcherNotification {
 
     private static final Logger LOGGER = Logger.getLogger(DingtalkWatcherNotification.class.getName());
 
-    private static final String WATCHER_PLUGIN = "[dingtalk-watcher-plugin]: ";
+    private static final String WATCHER_PLUGIN = "dingtalk-watcher-plugin: ";
 
     final private String subject;
     final private String body;
