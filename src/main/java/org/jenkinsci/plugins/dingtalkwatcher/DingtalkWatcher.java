@@ -3,11 +3,13 @@ package org.jenkinsci.plugins.dingtalkwatcher;
 import com.arronlong.httpclientutil.HttpClientUtil;
 import com.arronlong.httpclientutil.common.HttpConfig;
 import com.arronlong.httpclientutil.exception.HttpProcessException;
+import com.google.common.base.Splitter;
 import hudson.Plugin;
 import hudson.model.User;
 import hudson.plugins.jobConfigHistory.JobConfigHistory;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -25,7 +27,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -100,6 +104,11 @@ public class DingtalkWatcher {
 
     private String toJSONString(final DingtalkWatcherNotification notification) {
         //组装内容
+        String mention = notification.getRecipients();
+        List<String> mentionedList = getMentionedList(mention);
+        List<String> mobileList = getMobileList(mention);
+
+
         StringBuilder content = new StringBuilder();
         StringBuilder subject = new StringBuilder();
         subject.append(notification.getMailSubject());
@@ -112,13 +121,50 @@ public class DingtalkWatcher {
         mdMap.put("text", content.toString());
 
 
+        Map atMap = new HashMap<String, Object>();
+        if(StringUtils.contains(mention, "@all")) {
+            atMap.put("isAtAll", true);
+        } else {
+            atMap.put("atMobiles", mobileList);
+            atMap.put("atUserIds", mentionedList);
+        }
 
         Map data = new HashMap<String, Object>();
         data.put("msgtype", "markdown");
         data.put("markdown", mdMap);
+        data.put("at", atMap);
 
         String req = JSONObject.fromObject(data).toString();
         return req;
+    }
+
+
+    private List<String> getMentionedList(String mention) { // # 用户 userID 列表
+        List<String> list = new ArrayList<>();
+        if (StringUtils.isNotEmpty(mention)) {
+            Iterable<String> iterable = Splitter.on(',').omitEmptyStrings().split(mention);
+            for (String result : iterable) {
+                if (mention.length() == 11 && mention.matches("[0-9]+.？[0-9]*")) {
+
+                } else {
+                    list.add(result);
+                }
+            }
+        }
+        return list;
+    }
+
+    private List<String> getMobileList(String mention) { // # 用户 mobile 列表
+        List<String> list = new ArrayList<>();
+        if (StringUtils.isNotEmpty(mention)) {
+            Iterable<String> iterable = Splitter.on(',').omitEmptyStrings().split(mention);
+            for (String result : iterable) {
+                if (mention.length() == 11 && mention.matches("[0-9]+.？[0-9]*")) {
+                    list.add(result);
+                }
+            }
+        }
+        return list;
     }
 
     private static String push(String url, String data) throws HttpProcessException, KeyManagementException, NoSuchAlgorithmException {
