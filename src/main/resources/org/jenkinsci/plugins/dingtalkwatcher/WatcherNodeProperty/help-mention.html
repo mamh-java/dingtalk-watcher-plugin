@@ -1,5 +1,20 @@
 <div>
-    mentioned_list           userid的列表，提醒群中的指定成员(@某个成员)，@all表示提醒所有人，如果开发者获取不到userid，可以使用mentioned_mobile_list
-    mentioned_mobile_list    手机号列表，提醒手机号对应的群成员(@某个成员)，@all表示提醒所有人
-
+    <p>atUserIds    被@人的用户userid。多个之间用英文逗号分割. 提醒群中的指定成员(@某个成员)，如果开发者获取不到userid，可以使用手机号列表.
+    </p>
+    <p>atMobiles    手机号列表，多个之间用英文逗号分割. 提醒手机号对应的群成员(@某个成员).
+        注意 只有在群内的成员才可被@，非群内成员手机号会被脱敏。
+    </p>
+    <p>@all 表示提醒所有人, </p>
+    <pre>
+    "at": {
+      "atMobiles": [
+          "150XXXXXXXX"
+      ],
+      "atUserIds": [
+          "user123"
+      ],
+      "isAtAll": false
+    }
+    </pre>
+    <a href="https://open.dingtalk.com/document/robots/custom-robot-access">https://open.dingtalk.com/document/robots/custom-robot-access</a>
 </div>
