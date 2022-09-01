@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?jelly escape-by-default='true'?>
 <div>
-    This plugin notifies configured ding ding recipients on various events
+    通过钉钉机器人发通知，当jenkins的 node掉线上线，或者 job有修改的时候发通知
 </div>
