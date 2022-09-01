@@ -1,0 +1,1 @@
+通过ding ding机器人发通知，当jenkins的 node掉线上线，或者 job有修改的时候发通知 
