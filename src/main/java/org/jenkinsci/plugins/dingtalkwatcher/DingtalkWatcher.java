@@ -144,7 +144,7 @@ public class DingtalkWatcher {
         if (StringUtils.isNotEmpty(mention)) {
             Iterable<String> iterable = Splitter.on(',').omitEmptyStrings().split(mention);
             for (String result : iterable) {
-                if (mention.length() == 11 && mention.matches("[0-9]+.？[0-9]*")) {
+                if (mention.length() == 11 && mention.matches("[0-9]+")) {
 
                 } else {
                     list.add(result);
@@ -159,7 +159,7 @@ public class DingtalkWatcher {
         if (StringUtils.isNotEmpty(mention)) {
             Iterable<String> iterable = Splitter.on(',').omitEmptyStrings().split(mention);
             for (String result : iterable) {
-                if (mention.length() == 11 && mention.matches("[0-9]+.？[0-9]*")) {
+                if (mention.length() == 11 && mention.matches("[0-9]+")) {
                     list.add(result);
                 }
             }
